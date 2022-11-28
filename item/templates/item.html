@@ -1,0 +1,71 @@
+{% extends 'base.html' %} {% block content %}
+<script>
+	jQuery(function () {
+		jQuery("#appointment_date").datepicker({
+			changeMonth: true,
+			changeYear: true,
+			yearRange: "0:+1",
+			dateFormat: 'd MM,yy'
+		});
+	});
+</script>
+<!--breadcrumbs start-->
+<div class="breadcrumbs">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4 col-sm-4">
+				<h1>Request for New Item</h1>
+			</div>
+		</div>
+	</div>
+</div>
+<!--breadcrumbs end-->
+
+<!--container start-->
+<div class="registration-bg">
+	<div class="row">
+		<form enctype="multipart/form-data" method="post" class="form-signin wow fadeInUp" action="" style="max-width:60%">
+			{% csrf_token %}
+			<h2 class="form-signin-heading">
+			Request for New Item
+			</h2>
+			{% if messages %}
+				<div class="alert alert-success fade in" style="margin:10px;">
+					{% for message in messages %}
+						<strong>{{ message }}</strong>
+					{% endfor %}
+				</div>
+			{% endif %}
+			<div class="login-wrap">
+			
+			
+				
+				<div class="col-xs-6 form-group">
+					<label for="pwd">Item Name</label>
+					<input type="text" value="{{itemDetails.item_name}}" name="item_name" id="item_name" class="form-control" placeholder="Item Name" required >
+				</div>
+
+
+				<div class="col-xs-6 form-group" style="clear:both">
+					<label for="pwd">Descriptions of the Item</label>
+					<textarea class="form-control" style="height:150px;" placeholder="Description" autofocus="" name="item_description" id="item_description" required>{{itemDetails.item_description}}</textarea>
+				</div>
+				<button class="btn btn-lg btn-login btn-block" type="submit">Submit</button>
+			</div>
+			<input type="hidden" name="act" value="save_item">
+			<input type="hidden" name="user_id" value="{{itemlist.item_id}}">
+		</form>
+	</div>
+</div>
+{% if appointmentdetails %}
+<script>
+	$(".update-appointment").hide();
+</script>
+{% endif %}
+{% if request.session.appointment_level_id != 1 %}
+<script>
+	$(".role-options").hide();
+</script>
+{% endif %}
+<!--container end-->
+{% endblock content %}
